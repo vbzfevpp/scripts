@@ -20,27 +20,23 @@ if [ "$DIR" != "$RDIR" ]; then
 fi
 echo "DIR is '$DIR'"
 
-filename='path.log'
-exec < $filename
+LC_FILENAME='path.log'
 
 while read line
 do
-    #echo $line # 一行一行印出內容
     DEST="./patch/$( dirname "$line" )/"
-    #echo 'a' $DIR/$line # 印出 "a $line" 此行的內容, 可另外作特別處理.
     SOUR="$DIR/$line"
 
     if [ -d "$DEST" ]; then
-        # 目錄 /path/to/dir 存在
-        echo "Copy $SOUR to $DEST."
+        # directory /path/to/dir exist
+        echo "Copy $SOUR to $DEST..."
         cp $SOUR $DEST
     else
-        # 目錄 /path/to/dir 不存在
-        echo "Directory $DEST creation."
-        echo "Copy $SOUR to $DEST."		
+        echo "Directory $DEST create..."
 		mkdir -p $DEST
+        echo "Copy $SOUR to $DEST..."
         cp $SOUR $DEST
     fi
-done
+done < $LC_FILENAME
 
 
